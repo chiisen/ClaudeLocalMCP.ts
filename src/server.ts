@@ -11,11 +11,10 @@ args.forEach(arg => {
   config[key] = value;
 });
 
-if(!config.envPath)
-{
+if (!config.envPath) {
   console.error("envPath is missing. Please set envPath in command line.");
-        throw new Error("Server configuration error: Missing envPath.");
-        // 或者拋出錯誤: throw new Error("Server configuration error: Missing API key.");
+  throw new Error("Server configuration error: Missing envPath.");
+  // 或者拋出錯誤: throw new Error("Server configuration error: Missing API key.");
 }
 
 
@@ -33,10 +32,10 @@ if (dotenvResult.error) {
 } else {
   // 可選：如果找到檔案但可能是空的，則記錄日誌
   if (!dotenvResult.parsed || Object.keys(dotenvResult.parsed).length === 0) {
-     console.warn(`[dotenv] 注意：找到 .env 檔案，但它是空的或不包含任何變數。`);
+    console.warn(`[dotenv] 注意：找到 .env 檔案，但它是空的或不包含任何變數。`);
   } else {
-     // 可選：如果需要除錯，則記錄成功訊息
-     // console.log(`[dotenv] 成功載入 .env 檔案。`);
+    // 可選：如果需要除錯，則記錄成功訊息
+    // console.log(`[dotenv] 成功載入 .env 檔案。`);
   }
 }
 
@@ -86,17 +85,17 @@ export function createServer(): McpServer {
 
         // 檢查 OpenWeatherMap 是否成功找到城市
         if (response.status !== 200 || response.data.cod !== 200) {
-           // API 可能回傳 200 但內容是錯誤碼 (例如找不到城市 cod: "404")
-           const errorMessage = response.data.message || `Could not find weather data for ${city}. Status: ${response.status}`;
-           console.error("OpenWeatherMap API Error:", errorMessage, response.data);
-           return {
-             content: [
-               {
-                 type: "text",
-                 text: JSON.stringify({ error: errorMessage }, null, 2),
-               },
-             ],
-           };
+          // API 可能回傳 200 但內容是錯誤碼 (例如找不到城市 cod: "404")
+          const errorMessage = response.data.message || `Could not find weather data for ${city}. Status: ${response.status}`;
+          console.error("OpenWeatherMap API Error:", errorMessage, response.data);
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify({ error: errorMessage }, null, 2),
+              },
+            ],
+          };
         }
 
         const data = response.data;
@@ -126,16 +125,16 @@ export function createServer(): McpServer {
         // 可以檢查 error.response 來獲取更詳細的 API 錯誤資訊
         let errorMessage = `Failed to fetch weather data for ${city}.`;
         if (axios.isAxiosError(error) && error.response) {
-            // 如果是 API 回傳的錯誤 (例如 404 Not Found, 401 Unauthorized)
-            console.error("API Response Error:", error.response.status, error.response.data);
-            errorMessage = `Error from weather service: ${error.response.data?.message || error.response.statusText || 'Unknown API error'}`;
-            if (error.response.status === 404) {
-                errorMessage = `Could not find the city: ${city}`;
-            } else if (error.response.status === 401) {
-                errorMessage = `Invalid API key or unauthorized request.`;
-            }
+          // 如果是 API 回傳的錯誤 (例如 404 Not Found, 401 Unauthorized)
+          console.error("API Response Error:", error.response.status, error.response.data);
+          errorMessage = `Error from weather service: ${error.response.data?.message || error.response.statusText || 'Unknown API error'}`;
+          if (error.response.status === 404) {
+            errorMessage = `Could not find the city: ${city}`;
+          } else if (error.response.status === 401) {
+            errorMessage = `Invalid API key or unauthorized request.`;
+          }
         } else if (error instanceof Error) {
-            errorMessage = error.message; // 其他一般錯誤
+          errorMessage = error.message; // 其他一般錯誤
         }
 
         // 回傳一個錯誤訊息給使用者
