@@ -3,8 +3,42 @@ import { z } from "zod";
 import axios from "axios"; // 引入 axios
 import dotenv from 'dotenv'; // 引入 dotenv 來讀取 .env 檔案
 
-// 在程式碼開頭載入環境變數
-dotenv.config();
+const args = process.argv.slice(2); // 跳過 node 路徑與程式檔案路徑
+const config: Record<string, string> = {};
+
+args.forEach(arg => {
+  const [key, value] = arg.split('=');
+  config[key] = value;
+});
+
+if(!config.envPath)
+{
+  console.error("envPath is missing. Please set envPath in command line.");
+        throw new Error("Server configuration error: Missing envPath.");
+        // 或者拋出錯誤: throw new Error("Server configuration error: Missing API key.");
+}
+
+
+// 在程式碼開頭載入環境變數並指定 .env 檔案的路徑
+const dotenvResult = dotenv.config({ path: config.envPath });
+
+// 檢查 dotenv 是否載入 .env 檔案失敗
+if (dotenvResult.error) {
+  // 取得 dotenv 開始搜尋的目前工作目錄
+  const currentWorkingDirectory = process.cwd();
+  // 印出警告訊息，指出它在哪裡尋找 .env 檔案
+  console.warn(`[dotenv] 警告：找不到或無法載入 .env 檔案。搜尋起始目錄：${currentWorkingDirectory}`);
+  // 可選：您也可以記錄 dotenv 的具體錯誤以獲取更多詳細資訊：
+  // console.warn(`[dotenv] 錯誤詳細資訊：${dotenvResult.error.message}`);
+} else {
+  // 可選：如果找到檔案但可能是空的，則記錄日誌
+  if (!dotenvResult.parsed || Object.keys(dotenvResult.parsed).length === 0) {
+     console.warn(`[dotenv] 注意：找到 .env 檔案，但它是空的或不包含任何變數。`);
+  } else {
+     // 可選：如果需要除錯，則記錄成功訊息
+     // console.log(`[dotenv] 成功載入 .env 檔案。`);
+  }
+}
 
 // 從環境變數讀取 API 金鑰
 const OPENWEATHERMAP_API_KEY = process.env.OPENWEATHERMAP_API_KEY;
@@ -12,7 +46,7 @@ const OPENWEATHERMAP_API_KEY = process.env.OPENWEATHERMAP_API_KEY;
 export function createServer(): McpServer {
   const server = new McpServer({
     name: "Real Weather MCP Server", // 可以改個名字
-    version: "0.1.1",
+    version: "0.1.2",
   });
 
   server.tool(

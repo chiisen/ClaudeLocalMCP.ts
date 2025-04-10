@@ -30,13 +30,23 @@ Windows 用戶請
         "weather": {
             "command": "node",
             "args": [
-                "D:\\github\\ClaudeLocalMCP.ts\\dist\\index.js"
+                "D:\\github\\ClaudeLocalMCP.ts\\dist\\index.js",
+                "envPath=D:\\github\\ClaudeLocalMCP.ts\\.env"
             ]
         }
     }
 }
 ```
-確認一下 MCP 是否正常開啟
+envPath 是指定 .env 的路徑
+
+確認一下 MCP 是否正常開啟  
 ![MCP開啟圖示](./images/ClaudeMCP01.png)
-檢視一下 MCP 名稱
+檢視一下 MCP 名稱  
 ![MCP開啟圖示](./images/ClaudeMCP02.png)
+詢問時要指定地區，如: 台中天氣如何?  
+Claude 會要你確認(Allow for this chat)是否可以執行 MCP 服務
+![MCP開啟圖示](./images/ClaudeMCP03.png)
+
+### 查詢 MCP Server 執行 log
+Windows 用戶請  
+開啟目錄 `C:\Users\使用者名稱\AppData\Roaming\Claude\logs`  
