@@ -12,7 +12,8 @@
         "-y",
         "@modelcontextprotocol/inspector",
         "node",
-        "dist/index.js"
+        "dist/index.js",
+        "envPath=.env"
       ],
       "console": "integratedTerminal",
       "preLaunchTask": "npm: watch",
