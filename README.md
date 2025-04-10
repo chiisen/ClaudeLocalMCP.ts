@@ -1,5 +1,8 @@
 # ClaudeLocalMCP.ts
 自己為 Claude 寫本地端 MCP Server 很簡單，有手就行😁
+完整流程 Demo 的 gif 圖檔  
+![MCP開啟圖示](./images/DemoMCP.gif)
+
 ## Weather MCP Server
 這是用來給 Claude 查詢指定地區的天氣資訊
 
@@ -46,8 +49,6 @@ envPath 是指定 .env 的路徑
 詢問時要指定地區，如: 台中天氣如何?  
 Claude 會要你確認(Allow for this chat)是否可以執行 MCP 服務
 ![MCP開啟圖示](./images/ClaudeMCP03.png)
-完整流程 Demo 的 gif 圖檔  
-![MCP開啟圖示](./images/DemoMCP.gif)
 
 ### 查詢 MCP Server 執行 log
 Windows 用戶請  
