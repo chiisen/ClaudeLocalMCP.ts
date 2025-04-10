@@ -50,9 +50,9 @@ export function createServer(): McpServer {
 
   server.tool(
     "get_weather",
-    "Get real-time weather info for a given city.", // 更新描述
+    "Get real-time weather info for a given city. The city name must be translated into English.", // 更新描述
     {
-      city: z.string().describe("The name of the city"), // 英文描述可能更通用
+      city: z.string().describe("The name of the city (automatically translated to English)"), // 英文描述可能更通用
     },
     async ({ city }) => {
       // 檢查 API 金鑰是否存在
