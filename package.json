@@ -20,7 +20,7 @@
     "type": "git",
     "url": ""
   },
-  "author": "",
+  "author": "Sam",
   "license": "MIT",
   "description": "Weather MCP Server",
   "dependencies": {
